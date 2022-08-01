@@ -10,7 +10,7 @@
 
 .envrc
 
-deployments/localhost
+# deployments/localhost
 
 abis
 artifacts
