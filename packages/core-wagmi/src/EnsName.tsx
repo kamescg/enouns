@@ -6,18 +6,19 @@ import Address from './Address';
 interface EnsNameProps {
   className?: string;
   address?: string;
-  truncate: boolean;
 }
 
-export const EnsName = ({ className, address, truncate = false }: EnsNameProps) => {
+export const EnsName = ({ className, address }: EnsNameProps) => {
   const classes = classNames(className, 'EnsName');
-  const { data, isError, isLoading } = useEnsName({
+  const { data, error, isError, isLoading } = useEnsName({
     address: address,
   });
+
+  console.log(data, error, isLoading, isError);
+
   if (isLoading) return null;
-  if (isError || !isLoading) {
-    return <Address truncate={truncate} address={address} className={classes} />;
-  }
+  if (isError || !isLoading)
+    return <Address truncate address={address} className={classes} />;
   return <div className={classes}>{data}</div>;
 };
 

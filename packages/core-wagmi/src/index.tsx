@@ -1,6 +1,3 @@
-export { useLogContractRead } from './hooks/useLogContractRead';
-export { useLogContractWrite } from './hooks/useLogContractWrite';
-
 export { Address } from './Address';
 export { Balance } from './Balance';
 export { BlockNumber } from './BlockNumber';

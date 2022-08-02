@@ -2,35 +2,13 @@ import { Main } from "@/templates/Main";
 import { Meta } from "@/templates/Meta";
 import { AppConfig } from "@/utils/AppConfig";
 import FormMintNoun from "@/components/FormMintNoun";
-import { useAccount, useEnsName, useProvider, useSigner } from "wagmi";
+import { useAccount, useContractRead, useEnsName, useSigner } from "wagmi";
+import ENouns from "@enouns/core-sol/deployments/localhost/ENouns.json";
 import FormPreviewNoun from "@/components/FormPreviewNoun";
 import { useEffect, useState } from "react";
 import ENS, { getEnsAddress } from "@ensdomains/ensjs";
-import { name } from "assert";
-
-const IsConnected = ({ address }) => {
-  console.log(address, "address");
-  const ens = useEnsName({
-    address: "0x761d584f1C2d43cBc3F42ECd739701a36dFFAa31",
-  });
-  console.log(ens, "ens");
-  // const ensSS = useEnsAddress();
-  return (
-    <div className="dark: mx-auto bg-gradient-to-br from-neutral-100 via-neutral-100 to-neutral-200 py-32 text-center text-neutral-500 shadow-sm dark:from-neutral-700 dark:via-neutral-800 dark:to-neutral-900 dark:text-white relative">
-      <div className="container max-w-screen-sm mx-auto">
-        {ens.data && <FormMintNoun ensName={ens.data} />}
-        {!ens.data && (
-          <div className="">
-            <FormPreviewNoun />
-            <p className="text-center">
-              Register an ENS domain to mint a eNoun.
-            </p>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
+import NFTPreview from "@/components/NFTPreview";
+import NFTView from "@/components/NFTView";
 
 const Index = () => {
   const account = useAccount();
@@ -44,13 +22,39 @@ const Index = () => {
           ensAddress: getEnsAddress("1"),
         });
         const { name } = await ens.getName(account?.data?.address);
-        // console.log(name, "namename");
         if (name) {
           setName(name);
         }
       }
     })();
   }, [signer?.data]);
+
+  const { data } = useContractRead(
+    {
+      addressOrName: ENouns.address,
+      contractInterface: ENouns.abi,
+    },
+    "isOwner",
+    { args: [account?.data?.address] }
+  );
+
+  const { data: tokenId } = useContractRead(
+    {
+      addressOrName: ENouns.address,
+      contractInterface: ENouns.abi,
+    },
+    "getId",
+    { args: [account?.data?.address] }
+  );
+
+  const { data: preview } = useContractRead(
+    {
+      addressOrName: ENouns.address,
+      contractInterface: ENouns.abi,
+    },
+    "preview",
+    { args: [account?.data?.address] }
+  );
 
   return (
     <Main
@@ -62,14 +66,35 @@ const Index = () => {
       }
     >
       <div className="min-h-vh bg-gradient-to-br from-neutral-100 via-neutral-100 to-neutral-200 py-32 text-center text-neutral-500 shadow-sm dark:from-neutral-700 dark:via-neutral-800 dark:to-neutral-900 dark:text-white relative flex justify-center items-center">
-        <div className="container max-w-screen-sm mx-auto">
-          {name && <FormMintNoun ensName={name} />}
-          {!name && (
+        <div className="container max-w-screen-md mx-auto">
+          {data ? (
+            <>
+              <NFTView tokenId={tokenId || 0} img={preview} width={"100%"} />
+            </>
+          ) : (
             <div className="">
-              <FormPreviewNoun />
-              <p className="text-center">
-                Register an ENS domain to mint a eNoun.
-              </p>
+              {name && <FormMintNoun />}
+              {!name && (
+                <div className="">
+                  <FormPreviewNoun />
+
+                  <div className="mt-4 z-10 relative">
+                    <p className="mt-4">
+                      <a
+                        className="link text-sm font-bold"
+                        href="https://learn.rainbow.me/how-to-set-your-ens-name-to-appear-on-websites-as-your-username"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Step-By-Step Instructions
+                      </a>
+                    </p>
+                    <p className="text-center text-xs font-semibold">
+                      ☝️ Register domain and set Primary ENS name ☝️
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

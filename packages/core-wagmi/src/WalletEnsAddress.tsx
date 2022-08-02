@@ -1,31 +1,20 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { useAccount, useEnsAddress } from 'wagmi'
+import { useAccount, useEnsName } from 'wagmi';
 
 interface WalletEnsAddressProps {
- className?: string;
- name: string;
- msg?: string;
-  msgActive: boolean;
+  className?: string;
 }
 
-export const WalletEnsAddress = ({className, name, msg, msgActive}: WalletEnsAddressProps) => { 
- const classes = classNames(className, 'WalletEnsAddress'); 
- const { isError, isLoading } = useAccount()
- const { data: dataEnsAddress } = useEnsAddress({
-    name: name,
-  })
+export const WalletEnsAddress = ({ className }: WalletEnsAddressProps) => {
+  const classes = classNames(className, 'WalletEnsAddress');
+  const { data, isError, isLoading } = useAccount();
+  const { data: dataEnsAddress } = useEnsName({
+    address: data?.address,
+  });
 
-  if (isLoading) return null
-  if ((isError || !isError && !dataEnsAddress) && !msgActive) return null
-  if ((isError || !isError && !dataEnsAddress) && msgActive) return <span className={className}>{msg}</span>
-  return <div className={classes}>{dataEnsAddress}</div>
-}
-
-WalletEnsAddress.defaultProps = {
-  msg:'Connect Wallet',
-  msgActive: false,
-  truncate: false,
-}
+  if (isLoading || isError) return null;
+  return <div className={classes}>{dataEnsAddress}</div>;
+};
 
 export default WalletEnsAddress;

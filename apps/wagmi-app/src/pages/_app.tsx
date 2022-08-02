@@ -37,8 +37,8 @@ const { chains, provider, webSocketProvider } = configureChains(
         http: "http://127.0.0.1:8545",
       }),
     }),
-    alchemyProvider({ alchemyId: "_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC" }),
-    publicProvider(),
+    // alchemyProvider({ alchemyId: "_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC" }),
+    // publicProvider(),
   ]
 );
 

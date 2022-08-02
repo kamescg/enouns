@@ -24,6 +24,10 @@ body {
   background-color: transparent;
 }
 
+.link  {
+@apply text-blue-600 hover:text-blue-700 dark:text-blue-200 dark:hover:text-blue-300
+}
+
 /**
  * 1. Remove the bottom border in Chrome 57-
  * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
@@ -148,4 +152,84 @@ pre {
   white-space: -pre-wrap;      /* Opera 4-6 */
   white-space: -o-pre-wrap;    /* Opera 7 */
   word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+.animate {
+  position: absolute;
+  /* top: 1px; */
+  /* right: 1px; */
+  /* bottom: 1px; */
+  /* left: 1px; */
+  background: inherit;
+  border-radius: calc(var(--geist-radius) - 1px);
+  background: linear-gradient(-90deg,#007cf0,#00dfd8,#ff0080,#007cf0);
+  background-size: 400% 100%;
+  /* border: none; */
+  padding: 0;
+  margin: 0;
+  border-radius: 10px;
+  -webkit-animation: glower 38s ease-in-out infinite;
+  animation: glower 38s ease-in-out infinite;
+}
+
+@keyframes glower {
+  0% {
+    background-position: 0 0;
+  }
+  
+  50% {
+    background-position: 400% 0;
+  }
+  
+  100% {
+    background-position: 0 0;
+  }
+}
+
+
+.tag {
+  @apply px-2 inline-flex text-xs leading-5 font-semibold rounded-lg;
+  padding-bottom: 0.125rem;
+  padding-top: 0.125rem;
+}
+
+.tag-base {
+  @apply text-base;
+}
+
+.tag-white {
+  @apply text-gray-700 bg-white;
+}
+.tag-cloud {
+  @apply text-gray-600 bg-gray-100;
+}
+.tag-smoke {
+  @apply text-gray-700 bg-gray-200;
+}
+.tag-gray {
+  @apply text-gray-100 bg-gray-700;
+}
+.tag-green {
+  @apply text-green-100 bg-green-800;
+}
+.tag-green-light {
+  @apply text-green-800 bg-green-200;
+}
+.tag-red {
+  @apply text-red-100 bg-red-800;
+}
+.tag-blue {
+  @apply text-blue-100 bg-blue-800;
+}
+.tag-indigo {
+  @apply text-indigo-100 bg-indigo-800;
+}
+.tag-indigo {
+  @apply text-purple-100 bg-purple-800;
+}
+.tag-ens-1 {
+  @apply text-purple-100 bg-blue-600;
+}
+.tag-orange {
+  @apply text-yellow-100 bg-yellow-800;
 }

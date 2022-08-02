@@ -5,12 +5,13 @@ import { Base64 } from "base64-sol/base64.sol";
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 import { ISVGRender } from "./interfaces/ISVGRender.sol";
 import { ITraitsFetch } from "./interfaces/ITraitsFetch.sol";
+import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
 
 /**
  * @title ERC721Storage
  * @author Kames Geraghty
  */
-contract ERC721Storage is Ownable {
+abstract contract ERC721Storage is Ownable {
   address internal _svgRender;
   address internal _traitsFetch;
   ContractURI internal _contractURI;
@@ -58,7 +59,7 @@ contract ERC721Storage is Ownable {
     bytes memory input1
   ) external view returns (string memory uri) {
     string memory image_ = ISVGRender(_svgRender).render(input0);
-    // string memory traits_ = ITraitsFetch(_svgRender).fetch(input1);
+    string memory traits_ = ITraitsFetch(_traitsFetch).fetch(input1);
     return
       string(
         abi.encodePacked(
@@ -79,7 +80,7 @@ contract ERC721Storage is Ownable {
                 image_,
                 '",',
                 '"attributes": [',
-                // traits_,
+                traits_,
                 "]",
                 "}"
               )
@@ -133,11 +134,7 @@ contract ERC721Storage is Ownable {
   /* Internal Functions                                                                    */
   /* ===================================================================================== */
 
-  function _parseName(uint256 _tokenId) internal view returns (string memory) {
-    return "ERC721K";
-  }
+  function _parseName(uint256 _tokenId) internal view virtual returns (string memory);
 
-  function _parseDescription(uint256 _tokenId) internal view returns (string memory) {
-    return "ERC721K";
-  }
+  function _parseDescription(uint256 _tokenId) internal view virtual returns (string memory);
 }

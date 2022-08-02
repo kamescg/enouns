@@ -9,7 +9,6 @@ module.exports = withBundleAnalyzer({
   },
   // assetPrefix: '/turbo-eth/',
   // basePath: '/turbo-eth',
-  ignoreBuildErrors: true,
   poweredByHeader: false,
   trailingSlash: true,
   basePath: '',

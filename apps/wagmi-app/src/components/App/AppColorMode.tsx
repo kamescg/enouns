@@ -11,11 +11,7 @@ export const AppColorMode = ({ className }: AppColorModeProps) => {
   const [mode, setMode] = React.useState<"light" | "dark">("light");
   useEffect(() => {
     // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-    if (
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
+    if (localStorage.theme === "dark") {
       document.documentElement.classList.add("dark");
       document.documentElement.classList.remove("light");
       setMode("dark");

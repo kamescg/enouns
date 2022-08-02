@@ -27,6 +27,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "chain": "turbo run chain",
     "lab": "turbo run lab",
+    "watch": "turbo run watch",
     "lab:demo": "turbo run lab:demo",
     "lab:fork": "turbo run lab:fork",
     "clean": "turbo run clean",

@@ -11,7 +11,22 @@ export default async function deploy(hardhat: HardhatRuntimeEnvironment) {
       contract: "ENounsRender",
       from: deployer,
       args: [],
-      skipIfAlreadyDeployed: true,
+      skipIfAlreadyDeployed: false,
+      log: true,
+    });
+    
+    const StreamENS = await deploy("StreamENS", {
+      contract: "StreamENS",
+      from: deployer,
+      args: [],
+      skipIfAlreadyDeployed: false,
+      log: true,
+    });
+    const ENounsTraits = await deploy("ENounsTraits", {
+      contract: "ENounsTraits",
+      from: deployer,
+      args: [StreamENS.address],
+      skipIfAlreadyDeployed: false,
       log: true,
     });
 
@@ -24,19 +39,19 @@ export default async function deploy(hardhat: HardhatRuntimeEnvironment) {
       fee_recipient: "0x0000000000000000000000000000000000000000",
     };
 
-    const ERC721Storage = await deploy("ERC721Storage", {
-      contract: "ERC721Storage",
+    const ENounsStorage = await deploy("ENounsStorage", {
+      contract: "ENounsStorage",
       from: deployer,
-      args: [ENounsRender.address, constants.AddressZero, contactInformation],
-      skipIfAlreadyDeployed: true,
+      args: [ENounsRender.address, ENounsTraits.address, contactInformation],
+      skipIfAlreadyDeployed: false,
       log: true,
     });
 
-    const ENouns = await deploy("ENouns", {
+    await deploy("ENouns", {
       contract: "ENouns",
       from: deployer,
-      args: ["Ethereum Nouns System", "eNouns", ERC721Storage.address],
-      skipIfAlreadyDeployed: true,
+      args: ["Ethereum Nouns System", "eNouns", ENounsStorage.address],
+      skipIfAlreadyDeployed: false,
       log: true,
     });
   }

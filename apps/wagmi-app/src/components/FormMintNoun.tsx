@@ -139,7 +139,7 @@ export const FormMintNoun = ({ className }: FormMintNounProps) => {
     { args: [account?.data?.address] }
   );
 
-  const [status, setStatus] = React.useState(2);
+  const [status, setStatus] = React.useState(0);
   const onSubmit = async (_data: any) => {
     showModal();
     const tx = await signer.data?.sendTransaction({

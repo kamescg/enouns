@@ -51,7 +51,7 @@ export const FormPreviewNoun = ({ className }: FormPreviewNounProps) => {
       contractInterface: ENouns.abi,
     },
     "previewUsingEnsName",
-    { args: [name || "kames.eth"] }
+    { args: [name ? name + ".eth" : "vitalik.eth"] }
   );
 
   const onSubmit = (_data: any) => {
@@ -60,10 +60,10 @@ export const FormPreviewNoun = ({ className }: FormPreviewNounProps) => {
 
   return (
     <div className={styleForm}>
-      {data && (
+      {
         <>
           <div
-            className="absolute top-0 bottom-0 left-0 right-0 bg-cover bg-center opacity-30 z-0 blur-xl -rotate-12 scale-150"
+            className="absolute top-0 bottom-0 left-0 right-0 bg-cover bg-center opacity-20 z-0 blur-xl"
             style={{
               backgroundImage: `url(${data})`,
             }}
@@ -72,27 +72,31 @@ export const FormPreviewNoun = ({ className }: FormPreviewNounProps) => {
             <span className="border-2 border-white inline-block rounded-lg shadow-sm">
               <img
                 className="rounded-lg mx-auto border-2 border-shite"
+                style={{
+                  minHeight: "320px",
+                  minWidth: "320px",
+                }}
                 src={data}
               />
             </span>
           </div>
         </>
-      )}
+      }
       <div className="mx-auto" style={{ width: 320 }}>
-        <form onSubmit={handleSubmit(onSubmit)} className="z-10 mt-10 relative">
+        <form onSubmit={handleSubmit(onSubmit)} className="z-10 relative">
           <div className="mt-4">
             <InputWithLabel
               name="name"
-              label="name"
-              placeholder="vitalik.eth"
+              label=".eth"
+              placeholder="vitalik"
               register={register}
             />
           </div>
           <button
-            className="button text-white py-2 rounded-md text-lg py-4 px-14 bg-gradient-to-br from-emerald-500 via-emerald-500 to-emerald-700 w-full mt-6"
+            className="text-white font-bold bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 rounded-lg text-ssm px-5 py-4 text-center mt-3 w-full "
             type="submit"
           >
-            Create Noun
+            Preview eNouns
           </button>
         </form>
       </div>

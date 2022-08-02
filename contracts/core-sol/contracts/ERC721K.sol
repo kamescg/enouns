@@ -42,6 +42,10 @@ abstract contract ERC721K is ERC721, Ownable {
     return ERC721Storage(_erc721Storage).constructContractURI();
   }
 
+  function totalSupply() external view returns (uint256) {
+    return _idCounter;
+  }
+
   /**
    * @notice Get Metadata instance
    * @return storage Metadata

@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { AppColorMode } from "@/components/App/AppColorMode";
-import { AppConfig } from "@/utils/AppConfig";
 import AppLogo from "@/components/App/AppLogo";
 import Link from "next/link";
+import NFTContractInformation from "@/components/NFTContractInformation";
+import ModalHowItWorks from "@/components/ModalHowItWorks";
 
 type IMainProps = {
   meta: ReactNode;
@@ -19,20 +19,28 @@ const Main = (props: IMainProps) => (
           <div className=" align-center flex items-center justify-between">
             <AppLogo />
           </div>
-          <div className="text-right flex items-center justify-end">
-            <ul className="flex flex-wrap text-sm">
-              <li className="mr-6">
+          <div className="text-right flex justify-end">
+            <ul className="flex justify-center items-center flex-wrap text-sm">
+              <li className="">
+                <ModalHowItWorks>
+                  <span className="">How It Works</span>
+                </ModalHowItWorks>
+              </li>
+              <li className="ml-3">
                 <Link
                   className="border-none text-gray-700 hover:text-gray-900 dark:text-white hover:dark:text-neutral-100"
                   href="/playground"
                   rel="noreferrer"
                 >
-                  Playground
+                  <button
+                    type="button"
+                    className="text-white font-bold bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                  >
+                    Playground
+                  </button>
                 </Link>
               </li>
             </ul>
-            <AppColorMode className="" />
-            {/* <ConnectButton /> */}
           </div>
         </div>
       </div>
@@ -43,8 +51,21 @@ const Main = (props: IMainProps) => (
 
       <div className="fixed bottom-0 left-0 right-0 z-10 px-10">
         <div className=" text-center text-sm py-10 dark:text-white">
-          <div className="text-center flex items-center justify-end">
-            <ConnectButton />
+          <div className="flex items-center justify-between">
+            <div className="">
+              <NFTContractInformation />
+            </div>
+            <ConnectButton
+              accountStatus={"avatar"}
+              showBalance={{
+                largeScreen: false,
+                smallScreen: false,
+              }}
+              chainStatus={{
+                largeScreen: "icon",
+                smallScreen: "none",
+              }}
+            />
           </div>
           {/* <AppColorMode className="mt-3" /> */}
         </div>

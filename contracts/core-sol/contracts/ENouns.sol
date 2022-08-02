@@ -1,6 +1,5 @@
 //SPDX-License-Identifier: MIT
 pragma solidity 0.8.15;
-import "hardhat/console.sol";
 import { NameEncoder } from "./libraries/NameEncoder.sol";
 import { ERC721K } from "./ERC721K.sol";
 import { ERC721Storage } from "./ERC721Storage.sol";
@@ -22,6 +21,11 @@ contract ENouns is ERC721K {
 
   mapping(bytes32 => address) internal _ensReverseRecordsMap;
 
+  /// @notice Reverse lookup of a tokenId using the owner address
+  mapping(address => uint256) private _tokenIds;
+  /// @notice Map mint cost to tokenId
+  mapping(uint256 => uint256) private _mintPrice;
+
   /**
    * @notice ERC721K Construction
    * @param name_ string - Name of ERC721 token
@@ -37,14 +41,23 @@ contract ENouns is ERC721K {
   }
 
   receive() external payable {
+    /// @dev Mint an eNouns for sender.
     if (balanceOf(_msgSender()) == 0) {
-      _issue(msg.sender, _idCounter++);
+      _issue(msg.sender, ++_idCounter);
     }
   }
 
   /* ===================================================================================== */
   /* External Functions                                                                    */
   /* ===================================================================================== */
+
+  function getId(address user) external view returns (uint256) {
+    return _tokenIds[user];
+  }
+
+  function isOwner(address user) external view returns (bool) {
+    return _tokenIds[user] > 0 ? true : false;
+  }
 
   /**
    * @notice Given an address, construct a base64 encoded SVG image.
@@ -58,20 +71,26 @@ contract ENouns is ERC721K {
     return ENounsRender(ERC721Storage(_erc721Storage).getSvgRender()).renderUsingEnsName(name);
   }
 
+  function claim() external payable {
+    if (balanceOf(_msgSender()) == 0) {
+      _issue(msg.sender, ++_idCounter);
+    }
+  }
+
   function transferFrom(
     address from,
     address to,
     uint256 tokenId
   ) public virtual override {
     if (from == address(0)) {
-      _issue(to, _idCounter++);
+      _issue(to, ++_idCounter);
     } else {
       _reissue(from, to, tokenId);
     }
   }
 
   /* ===================================================================================== */
-  /* Internal Functions                                                                     */
+  /* Internal Functions                                                                    */
   /* ===================================================================================== */
 
   function _tokenData(uint256 tokenId)
@@ -79,11 +98,10 @@ contract ENouns is ERC721K {
     view
     virtual
     override
-    returns (bytes memory output0_, bytes memory output1_)
+    returns (bytes memory, bytes memory)
   {
-    output0_ = bytes(abi.encode(ownerOf(tokenId)));
-    output1_ = bytes("0x0");
-    return (output0_, output1_);
+    bytes memory ownerEncoded_ = bytes(abi.encode(ownerOf(tokenId)));
+    return (ownerEncoded_, ownerEncoded_);
   }
 
   function _encodeName(string memory _name) internal pure returns (bytes32) {
@@ -104,7 +122,9 @@ contract ENouns is ERC721K {
     bytes32 node = _encodeName(_reverseName(_to));
     require(_ensReverseRecordsMap[node] == address(0), "eNouns:issued");
     _mint(_to, _tokenId);
+    _tokenIds[_to] = _tokenId;
     _ensReverseRecordsMap[node] = _to;
+    _mintPrice[_tokenId] = msg.value;
     return _tokenId;
   }
 
@@ -113,11 +133,10 @@ contract ENouns is ERC721K {
     address _to,
     uint256 _tokenId
   ) internal returns (uint256) {
-    address owner_ = ownerOf(_tokenId);
-    require(owner_ == _from, "eNouns:not-owner");
-    string memory toEnsName_ = _reverseName(_to);
-    require(_ensReverseRecordsMap[_encodeName(toEnsName_)] == _from, "eNouns:invalid-ens");
+    require(_ensReverseRecordsMap[_encodeName(_reverseName(_to))] == _from, "eNouns:invalid-ens");
     super.transferFrom(_from, _to, _tokenId);
+    _tokenIds[_from] = 0;
+    _tokenIds[_to] = _tokenId;
   }
 
   /* ===================================================================================== */
