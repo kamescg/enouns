@@ -2,13 +2,7 @@ import * as React from "react";
 import { useForm, Controller } from "react-hook-form";
 import Slider from "react-input-slider";
 import classNames from "classnames";
-import {
-  useAccount,
-  useContractRead,
-  useEnsName,
-  useSigner,
-  useWaitForTransaction,
-} from "wagmi";
+import { useAccount, useContractRead, useEnsName, useSigner } from "wagmi";
 import ENouns from "@enouns/core-sol/deployments/localhost/ENouns.json";
 import { utils } from "ethers";
 import { useModal } from "react-modal-hook";
@@ -51,7 +45,7 @@ const Preview = ({ data }: any) => {
   );
 };
 
-export const FormMintNoun = ({ className, ensName }: FormMintNounProps) => {
+export const FormMintNoun = ({ className }: FormMintNounProps) => {
   const styleForm = classNames(className, "FormMintNoun mx-auto");
 
   const [showModal, hideModal] = useModal(() => (
@@ -122,7 +116,6 @@ export const FormMintNoun = ({ className, ensName }: FormMintNounProps) => {
   const {
     control,
     watch,
-    register,
     handleSubmit,
     formState: {},
   } = useForm({
@@ -137,7 +130,7 @@ export const FormMintNoun = ({ className, ensName }: FormMintNounProps) => {
   const ens = useEnsName({
     address: "0x761d584f1C2d43cBc3F42ECd739701a36dFFAa31",
   });
-  const { data, error, isError } = useContractRead(
+  const { data } = useContractRead(
     {
       addressOrName: ENouns.address,
       contractInterface: ENouns.abi,
