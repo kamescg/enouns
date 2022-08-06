@@ -33,47 +33,47 @@ const networks: HardhatUserConfig['networks'] = {
   },
 };
 
-if (MAINNET_PK_DEPLOYER && ETHEREUM_MAINNET_RPC_URL) {
-  networks.mainnet = {
-    url: ETHEREUM_MAINNET_RPC_URL,
-    accounts: [MAINNET_PK_DEPLOYER as unknown as HardhatNetworkAccountUserConfig],
-  };
-}
+// if (ETHEREUM_MAINNET_RPC_URL) {
+//   networks.mainnet = {
+//     url: ETHEREUM_MAINNET_RPC_URL,
+//     accounts: [MAINNET_PK_DEPLOYER as unknown as HardhatNetworkAccountUserConfig],
+//   };
+// }
 
-if (TESTNET_PK_DEPLOYER && ETHEREUM_TESTNET_RPC_URL) {
-  networks.mainnet = {
-    url: ETHEREUM_MAINNET_RPC_URL,
-    accounts: [TESTNET_PK_DEPLOYER as unknown as HardhatNetworkAccountUserConfig],
-  };
-}
+// if (TESTNET_PK_DEPLOYER && ETHEREUM_TESTNET_RPC_URL) {
+//   networks.mainnet = {
+//     url: ETHEREUM_MAINNET_RPC_URL,
+//     accounts: [TESTNET_PK_DEPLOYER as unknown as HardhatNetworkAccountUserConfig],
+//   };
+// }
 
-if (MAINNET_PK_DEPLOYER && POLYGON_MAINNET_RPC_URL) {
-  networks.mainnet = {
-    url: POLYGON_MAINNET_RPC_URL,
-    accounts: [MAINNET_PK_DEPLOYER as unknown as HardhatNetworkAccountUserConfig],
-  };
-}
+// if (MAINNET_PK_DEPLOYER && POLYGON_MAINNET_RPC_URL) {
+//   networks.mainnet = {
+//     url: POLYGON_MAINNET_RPC_URL,
+//     accounts: [MAINNET_PK_DEPLOYER as unknown as HardhatNetworkAccountUserConfig],
+//   };
+// }
 
-if (TESTNET_PK_DEPLOYER && POLYGON_TESTNET_RPC_URL) {
-  networks.mainnet = {
-    url: POLYGON_MAINNET_RPC_URL,
-    accounts: [TESTNET_PK_DEPLOYER as unknown as HardhatNetworkAccountUserConfig],
-  };
-}
+// if (TESTNET_PK_DEPLOYER && POLYGON_TESTNET_RPC_URL) {
+//   networks.mainnet = {
+//     url: POLYGON_MAINNET_RPC_URL,
+//     accounts: [TESTNET_PK_DEPLOYER as unknown as HardhatNetworkAccountUserConfig],
+//   };
+// }
 
-if (MAINNET_PK_DEPLOYER && OPTIMISM_MAINNET_RPC_URL) {
-  networks.mainnet = {
-    url: OPTIMISM_MAINNET_RPC_URL,
-    accounts: [MAINNET_PK_DEPLOYER as unknown as HardhatNetworkAccountUserConfig],
-  };
-}
+// if (MAINNET_PK_DEPLOYER && OPTIMISM_MAINNET_RPC_URL) {
+//   networks.mainnet = {
+//     url: OPTIMISM_MAINNET_RPC_URL,
+//     accounts: [MAINNET_PK_DEPLOYER as unknown as HardhatNetworkAccountUserConfig],
+//   };
+// }
 
-if (TESTNET_PK_DEPLOYER && OPTIMISM_TESTNET_RPC_URL) {
-  networks.mainnet = {
-    url: OPTIMISM_MAINNET_RPC_URL,
-    accounts: [TESTNET_PK_DEPLOYER as unknown as HardhatNetworkAccountUserConfig],
-  };
-}
+// if (TESTNET_PK_DEPLOYER && OPTIMISM_TESTNET_RPC_URL) {
+//   networks.mainnet = {
+//     url: OPTIMISM_MAINNET_RPC_URL,
+//     accounts: [TESTNET_PK_DEPLOYER as unknown as HardhatNetworkAccountUserConfig],
+//   };
+// }
 
 if (ARCHIVE_NODE_RPC_URL && FORK_ENABLED && DEPLOY == 'fork') {
   console.log('Forking Ethereum');
@@ -88,7 +88,7 @@ if (ARCHIVE_NODE_RPC_URL && FORK_ENABLED && DEPLOY == 'fork') {
     ],
     forking: {
       url: ARCHIVE_NODE_RPC_URL,
-      blockNumber: Number(15252500) || 0,
+      blockNumber: Number(15270065) || 0,
     },
   };
 } else {

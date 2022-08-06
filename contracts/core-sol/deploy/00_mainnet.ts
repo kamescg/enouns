@@ -1,8 +1,7 @@
-import { ethers } from "hardhat";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 export default async function deploy(hardhat: HardhatRuntimeEnvironment) {
-  if (process.env.DEPLOY == "fork") {
+  if (process.env.DEPLOY == "mainnet") {
     const { deployments, getNamedAccounts } = hardhat;
 
     const { deploy } = deployments;
@@ -55,7 +54,7 @@ export default async function deploy(hardhat: HardhatRuntimeEnvironment) {
       contract: "ENouns",
       from: deployer,
       args: ["Ethereum Nouns System", "eNouns", ENounsStorage.address, ensReverseRecord],
-      skipIfAlreadyDeployed: true,
+      skipIfAlreadyDeployed: false,
       log: true,
     });
   }

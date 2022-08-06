@@ -4,7 +4,6 @@ pragma solidity 0.8.15;
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
 import { IERC721 } from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-import { IENSReverseRecords } from "./interfaces/IENSReverseRecords.sol";
 import { IStream } from "./interfaces/IStream.sol";
 import { ITraitsFetch } from "./interfaces/ITraitsFetch.sol";
 import { StreamENS } from "./streams/StreamENS.sol";
@@ -14,7 +13,6 @@ import { StreamENS } from "./streams/StreamENS.sol";
  * @author Kames Geraghty
  */
 contract ENounsTraits is ITraitsFetch, Ownable {
-  using Strings for uint256;
   address private _streamEns;
   address private immutable _ensToken = 0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72;
   address private immutable _nounsToken = 0x9C8fF314C9Bc7F6e59A9d9225Fb22946427eDC03;
@@ -40,7 +38,6 @@ contract ENounsTraits is ITraitsFetch, Ownable {
         ",",
         _generateTrait("nounsBalance", Strings.toString(nounsBalance)),
         ",",
-        // _generateTrait("nounsBalance", "0")
         _generateTrait("lilNounsBalance", Strings.toString(lilNounsBalance))
       );
   }

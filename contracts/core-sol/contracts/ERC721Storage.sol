@@ -20,10 +20,16 @@ abstract contract ERC721Storage is Ownable {
     string name;
     string description;
     string image;
-    string external_link;
-    string seller_fee_basis_points;
-    string fee_recipient;
+    string externalLink;
+    string sellerFeeBasisPoints;
+    string feeRecipient;
   }
+
+  event SvgRenderUpdated(address svgRender);
+
+  event TraitsFetchUpdated(address traitsFetch);
+
+  event ContractURIUpdated(ContractURI contractURI);
 
   constructor(
     address _svgRender_,
@@ -36,6 +42,14 @@ abstract contract ERC721Storage is Ownable {
   }
 
   /* ===================================================================================== */
+  /* Virtual Functions                                                                     */
+  /* ===================================================================================== */
+
+  function _parseName(uint256 _tokenId) internal view virtual returns (string memory);
+
+  function _parseDescription(uint256 _tokenId) internal view virtual returns (string memory);
+
+  /* ===================================================================================== */
   /* External Functions                                                                    */
   /* ===================================================================================== */
   function getSvgRender() external view returns (address) {
@@ -46,10 +60,11 @@ abstract contract ERC721Storage is Ownable {
     return _traitsFetch;
   }
 
-  /**
-   * @notice Given an address, construct a base64 encoded SVG image.
-   */
-  function preview(bytes memory input) public view returns (string memory) {
+  function getContractDescription() external view returns (ContractURI memory) {
+    return _contractURI;
+  }
+
+  function preview(bytes memory input) external view returns (string memory) {
     return ISVGRender(_svgRender).render(input);
   }
 
@@ -110,17 +125,17 @@ abstract contract ERC721Storage is Ownable {
                 '"',
                 _contractURI.image,
                 '",',
-                '"external_link":',
+                '"externalLink":',
                 '"',
-                _contractURI.external_link,
+                _contractURI.externalLink,
                 '",',
-                '"seller_fee_basis_points":',
+                '"sellerFeeBasisPoints":',
                 '"',
-                _contractURI.seller_fee_basis_points,
+                _contractURI.sellerFeeBasisPoints,
                 '",',
-                '"fee_recipient":',
+                '"feeRecipient":',
                 '"',
-                _contractURI.fee_recipient,
+                _contractURI.feeRecipient,
                 '"',
                 "}"
               )
@@ -130,11 +145,18 @@ abstract contract ERC721Storage is Ownable {
       );
   }
 
-  /* ===================================================================================== */
-  /* Internal Functions                                                                    */
-  /* ===================================================================================== */
+  function setSvgRender(address svgRender) external onlyOwner {
+    _svgRender = svgRender;
+    emit SvgRenderUpdated(svgRender);
+  }
 
-  function _parseName(uint256 _tokenId) internal view virtual returns (string memory);
+  function setTraitsFetch(address traitsFetch) external onlyOwner {
+    _traitsFetch = traitsFetch;
+    emit TraitsFetchUpdated(traitsFetch);
+  }
 
-  function _parseDescription(uint256 _tokenId) internal view virtual returns (string memory);
+  function setContractURI(ContractURI memory contractURI) external onlyOwner {
+    _contractURI = contractURI;
+    emit ContractURIUpdated(contractURI);
+  }
 }

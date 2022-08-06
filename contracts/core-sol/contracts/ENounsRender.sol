@@ -1,56 +1,76 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.15;
 
-import "hardhat/console.sol";
-import { NameEncoder } from "./libraries/NameEncoder.sol";
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
-import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
+import { NameEncoder } from "./libraries/NameEncoder.sol";
 import { IENSReverseRecords } from "./interfaces/IENSReverseRecords.sol";
 import { INounsDescriptor } from "./interfaces/INounsDescriptor.sol";
 import { INounsSeeder } from "./interfaces/INounsSeeder.sol";
 
 contract ENounsRender is Ownable {
-  using Strings for uint256;
   using NameEncoder for string;
+
+  string private constant ENCODING = "data:image/svg+xml;base64,";
+
   /// @notice NounsDescriptor instance
   address private immutable _nounsDescriptor;
 
   /// @notice ENSReverseRecords instance
   address private immutable _ensReverseRecords;
 
-  constructor() {
-    _nounsDescriptor = 0x0Cfdb3Ba1694c2bb2CFACB0339ad7b1Ae5932B63;
-    _ensReverseRecords = 0x3671aE578E63FdF66ad4F3E12CC0c0d71Ac7510C;
+  constructor(address nounsDescriptor, address ensReverseRecords) public {
+    _nounsDescriptor = nounsDescriptor;
+    _ensReverseRecords = ensReverseRecords;
   }
 
-  function render(bytes memory input) public view returns (string memory) {
-    address _address = abi.decode(input, (address));
+  /* ===================================================================================== */
+  /* External Functions                                                                    */
+  /* ===================================================================================== */
+
+  function render(bytes memory input) external view returns (string memory) {
+    bytes32 _seedEntropy = abi.decode(input, (bytes32));
     return
       string.concat(
-        "data:image/svg+xml;base64,",
+        ENCODING,
+        INounsDescriptor(_nounsDescriptor).generateSVGImage(_generateSeed(uint256(_seedEntropy)))
+      );
+  }
+
+  function renderUsingAddress(address user) external view returns (string memory) {
+    return
+      string.concat(
+        ENCODING,
         INounsDescriptor(_nounsDescriptor).generateSVGImage(
-          _generateSeed(_generateInputFromAddress(_address))
+          _generateSeed(_generateInputFromAddress(user))
         )
       );
   }
 
-  function renderUsingEnsName(string memory _name) public view returns (string memory) {
+  function renderUsingEnsName(string memory ensName) external view returns (string memory) {
     return
       string.concat(
-        "data:image/svg+xml;base64,",
+        ENCODING,
         INounsDescriptor(_nounsDescriptor).generateSVGImage(
-          _generateSeed(_generateInputFromName(_name))
+          _generateSeed(_generateInputFromName(ensName))
         )
       );
   }
 
-  function _generateInputFromName(string memory _ensName) internal pure returns (uint256) {
-    return uint256(_encodeName(_ensName));
-  }
+  /* ===================================================================================== */
+  /* Internal Functions                                                                    */
+  /* ===================================================================================== */
 
   function _generateInputFromAddress(address _address) internal view returns (uint256) {
     string memory toEnsName_ = _reverseName(_address);
     return uint256(_encodeName(toEnsName_));
+  }
+
+  function _generateInputFromSeed(bytes32 _seed) internal view returns (uint256) {
+    return uint256(_seed);
+  }
+
+  function _generateInputFromName(string memory _ensName) internal pure returns (uint256) {
+    return uint256(_encodeName(_ensName));
   }
 
   function _encodeName(string memory _name) internal pure returns (bytes32) {

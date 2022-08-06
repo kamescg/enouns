@@ -10,9 +10,13 @@ import { ERC721Storage } from "./ERC721Storage.sol";
  * @author Kames Geraghty
  */
 abstract contract ERC721K is ERC721, Ownable {
+  /// @notice ID counter for ERC721 tokens
   uint256 internal _idCounter;
 
+  /// @notice ENSReverseRecords instance
   address internal _erc721Storage;
+
+  event ERC721StorageUpdated(address erc721Storage);
 
   /**
    * @notice ERC721K Construction
@@ -28,6 +32,9 @@ abstract contract ERC721K is ERC721, Ownable {
     _erc721Storage = _erc721Storage_;
   }
 
+  /* ===================================================================================== */
+  /* Virtual Functions                                                                     */
+  /* ===================================================================================== */
   function _tokenData(uint256 tokenId)
     internal
     view
@@ -46,30 +53,18 @@ abstract contract ERC721K is ERC721, Ownable {
     return _idCounter;
   }
 
-  /**
-   * @notice Get Metadata instance
-   * @return storage Metadata
-   */
   function getERC721Storage() external view returns (address) {
     return _erc721Storage;
   }
 
-  /**
-   * @notice Generate token URI
-   * @param tokenId uint256
-   * @return metadata string
-   */
   function tokenURI(uint256 tokenId) public view override returns (string memory) {
     (bytes memory input0, bytes memory input1) = _tokenData(tokenId);
     return ERC721Storage(_erc721Storage).constructTokenURI(tokenId, input0, input1);
   }
 
-  /**
-   * @notice Set Metadata instance
-   * @param erc721Storage address
-   */
   function setStorage(address erc721Storage) external onlyOwner {
     _erc721Storage = erc721Storage;
+    emit ERC721StorageUpdated(erc721Storage);
   }
 
   function supportsInterface(bytes4 interfaceId)
@@ -81,8 +76,4 @@ abstract contract ERC721K is ERC721, Ownable {
   {
     return super.supportsInterface(interfaceId);
   }
-
-  /* ===================================================================================== */
-  /* Internal Functions                                                                    */
-  /* ===================================================================================== */
 }

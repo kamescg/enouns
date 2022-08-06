@@ -20,8 +20,10 @@ contract StreamENS is IStream, Ownable {
     _keys.push("url");
     _keys.push("avatar");
     _keys.push("description");
+    _keys.push("com.discord");
     _keys.push("com.github");
     _keys.push("com.twitter");
+    _keys.push("eth.ens.delegate");
   }
 
   /* ===================================================================================== */
