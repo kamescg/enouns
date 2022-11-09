@@ -6,7 +6,7 @@ import {
   ERC721Name,
   ERC721TotalSupply,
 } from "@turbo-eth/erc721-wagmi";
-import ENouns from "@enouns/core-sol/deployments/localhost/ENouns.json";
+import ENouns from "@enouns/core-sol/deployments/mainnet/ENouns.json";
 interface NFTContractInformationProps {
   className?: string;
 }
@@ -21,7 +21,11 @@ export const NFTContractInformation = ({
   );
   return (
     <div className={containerClassName}>
-      <a className="mr-2" target={"_blank"} href={`https://opensea.io/enouns`}>
+      <a
+        className="mr-2"
+        target={"_blank"}
+        href={`https://opensea.io/collection/enouns`}
+      >
         <SVGOpenSeaWhite className="w-5" />
       </a>
       <ERC721Symbol

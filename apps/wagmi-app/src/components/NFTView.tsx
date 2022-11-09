@@ -1,13 +1,7 @@
 import * as React from "react";
-import { Address, IpfsUriImageBackgroundRender } from "@turbo-eth/core-wagmi";
-import ENouns from "@enouns/core-sol/deployments/localhost/ENouns.json";
-import {
-  useAccount,
-  useContractRead,
-  useEnsName,
-  useProvider,
-  useSigner,
-} from "wagmi";
+import { IpfsUriImageBackgroundRender } from "@turbo-eth/core-wagmi";
+import ENouns from "@enouns/core-sol/deployments/mainnet/ENouns.json";
+import { useAccount, useContractRead, useProvider } from "wagmi";
 import { parseAvatarString } from "@turbo-eth/ens-wagmi";
 import { TwitterSVG } from "./SVG";
 import SVGTwitter from "./SVG/SVGTwitter";
@@ -20,12 +14,10 @@ import SVGENSToken from "./SVG/SVGENSToken";
 
 interface NFTViewProps {
   className?: string;
-  img?: string;
   tokenId?: string | number;
-  width?: any;
 }
 
-export const NFTView = ({ img, tokenId, width = 320 }: NFTViewProps) => {
+export const NFTView = ({ tokenId }: NFTViewProps) => {
   const account = useAccount();
   const provider = useProvider();
   const { data, error } = useContractRead(
@@ -43,7 +35,6 @@ export const NFTView = ({ img, tokenId, width = 320 }: NFTViewProps) => {
     if (data) {
       (async () => {
         const json = Buffer.from(data.substring(29), "base64").toString();
-        // console.log(json, "json");
         const result = JSON.parse(json);
         result.traits = {};
         result.attributes.forEach((element: any) => {
@@ -59,7 +50,6 @@ export const NFTView = ({ img, tokenId, width = 320 }: NFTViewProps) => {
             provider
           );
         }
-        console.log(result);
         setTokenData(result);
       })();
       async () => {};
@@ -71,7 +61,7 @@ export const NFTView = ({ img, tokenId, width = 320 }: NFTViewProps) => {
       <div
         className="absolute top-0 bottom-0 left-0 right-0 bg-cover bg-center opacity-20 z-0 blur-xl"
         style={{
-          backgroundImage: `url(${img})`,
+          backgroundImage: `url(${tokenData?.image})`,
         }}
       />
       <div className="relative z-5">
@@ -79,21 +69,21 @@ export const NFTView = ({ img, tokenId, width = 320 }: NFTViewProps) => {
           <div className="col-span-3 flex flex-col justify-center items-end pr-12 text-left">
             <a
               target={"_blank"}
-              href={`https://opensea.io/assets/ethereum/${ENouns.address}/0`}
+              href={`https://opensea.io/assets/ethereum/${ENouns.address}/${tokenId}`}
             >
               <SVGOpenSeaBlue className="w-8 bg-white rounded-full" />
             </a>
             <a
               className="mt-2"
               target={"_blank"}
-              href={`https://opensea.io/assets/ethereum/${ENouns.address}/0`}
+              href={`https://app.ens.domains/address/${account?.data?.address}/`}
             >
               <SVGENSGradientShorthand className="w-8 bg-white rounded-full" />
             </a>
             <a
               className="mt-2"
               target={"_blank"}
-              href={`https://opensea.io/assets/ethereum/${ENouns.address}/0`}
+              href={`https://etherscan.io/address/${account?.data?.address}/`}
             >
               <SVGEtherscan className="w-8 bg-white rounded-full" />
             </a>
@@ -103,12 +93,14 @@ export const NFTView = ({ img, tokenId, width = 320 }: NFTViewProps) => {
               <h3 className="font-light text-3xl">{tokenData?.name}</h3>
             </div>
             <div className="absolute top-8 -right-4 z-20">
-              <IpfsUriImageBackgroundRender
-                className={
-                  "h-12 w-12 z-10 w-full overflow-hidden rounded-full border-2 border-white border-opacity-30 shadow-lg hover:shadow-xl"
-                }
-                uri={tokenData?.avatar || ""}
-              />
+              {tokenData?.avatar && (
+                <IpfsUriImageBackgroundRender
+                  className={
+                    "h-12 w-12 z-10 w-full overflow-hidden rounded-full border-2 border-white border-opacity-30 shadow-lg hover:shadow-xl"
+                  }
+                  uri={tokenData?.avatar || ""}
+                />
+              )}
             </div>
             <div className="z-5 relative border-2 border-white rounded-xl shadow-xl inline-block w-full">
               <img
@@ -124,24 +116,28 @@ export const NFTView = ({ img, tokenId, width = 320 }: NFTViewProps) => {
             </div>
           </div>
           <div className="col-span-3 flex flex-col justify-center items-start pl-12 text-left">
-            <a
-              className="mt-2"
-              target={"_blank"}
-              href={`https://twitter.com/${tokenData?.traits["com.twitter"]}`}
-            >
-              <SVGTwitter />
-            </a>
-            <a
-              className="mt-2"
-              target={"_blank"}
-              href={`https://github.com/${tokenData?.traits["com.github"]}`}
-            >
-              <SVGGithub />
-            </a>
+            {tokenData?.traits["com.twitter"] && (
+              <a
+                className="mt-2"
+                target={"_blank"}
+                href={`https://twitter.com/${tokenData?.traits["com.twitter"]}`}
+              >
+                <SVGTwitter />
+              </a>
+            )}
+            {tokenData?.traits["com.github"] && (
+              <a
+                className="mt-2"
+                target={"_blank"}
+                href={`https://github.com/${tokenData?.traits["com.github"]}`}
+              >
+                <SVGGithub />
+              </a>
+            )}
           </div>
         </div>
 
-        <div className="flex items-center justify-center mt-4">
+        {/* <div className="flex items-center justify-center mt-4">
           <span className="tag tag-blue mx-1">
             ⌐◨-◨ Nouns: {tokenData?.traits["nounsBalance"]}
           </span>
@@ -156,7 +152,7 @@ export const NFTView = ({ img, tokenId, width = 320 }: NFTViewProps) => {
           <span className="tag tag-green mx-1">
             ⌐◨_◨ Lil Nouns: {tokenData?.traits["lilNounsBalance"]}
           </span>
-        </div>
+        </div> */}
         <div className="mt-6">
           <p className="font-semibold text-s,">{tokenData?.description}</p>
         </div>

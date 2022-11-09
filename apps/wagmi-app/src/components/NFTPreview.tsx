@@ -1,5 +1,5 @@
 import * as React from "react";
-import ENouns from "@enouns/core-sol/deployments/localhost/ENouns.json";
+import ENouns from "@enouns/core-sol/deployments/mainnet/ENouns.json";
 import { useContractRead } from "wagmi";
 
 interface NFTPreviewProps {

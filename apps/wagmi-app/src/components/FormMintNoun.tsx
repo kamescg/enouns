@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import Slider from "react-input-slider";
 import classNames from "classnames";
 import { useAccount, useContractRead, useEnsName, useSigner } from "wagmi";
-import ENouns from "@enouns/core-sol/deployments/localhost/ENouns.json";
+import ENouns from "@enouns/core-sol/deployments/mainnet/ENouns.json";
 import { utils } from "ethers";
 import { useModal } from "react-modal-hook";
 import ModalSmall from "./Layout/Modal/ModalSmall";
@@ -84,7 +84,7 @@ export const FormMintNoun = ({ className }: FormMintNounProps) => {
             Want to review the contracts?{" "}
             <a
               className="text-blue-600 hover:text-blue-700 dark:text-blue-200 dark:hover:text-blue-300"
-              href="https://etherscan.io/address/0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2"
+              href="https://etherscan.io/address/0x5879eb56dcff53095781aa1f4b5eb0d325960360"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -128,7 +128,7 @@ export const FormMintNoun = ({ className }: FormMintNounProps) => {
   const account = useAccount();
   const signer = useSigner();
   const ens = useEnsName({
-    address: "0x761d584f1C2d43cBc3F42ECd739701a36dFFAa31",
+    address: account.data?.address,
   });
   const { data } = useContractRead(
     {
@@ -200,14 +200,14 @@ export const FormMintNoun = ({ className }: FormMintNounProps) => {
             <Controller
               control={control}
               name="value"
-              defaultValue={0.1}
+              defaultValue={0.01}
               render={({ field: { value, onChange } }) => (
                 <SliderComponent
                   className="w-full"
                   axis={"x"}
-                  xmax={2}
+                  xmax={0.5}
                   xmin={0}
-                  xstep={0.1}
+                  xstep={0.01}
                   onChange={onChange}
                   value={value}
                 />
@@ -216,7 +216,7 @@ export const FormMintNoun = ({ className }: FormMintNounProps) => {
           </div>
           <div className="col-span-4 bg-white p-2 rounded-md text-slate-700">
             <span className="">
-              Ξ {watchAll?.value?.toString().slice(0, 3)}
+              Ξ {watchAll?.value?.toString().slice(0, 4)}
             </span>
           </div>
         </div>
@@ -231,7 +231,7 @@ export const FormMintNoun = ({ className }: FormMintNounProps) => {
             width: 320,
           }}
           className="btn btn-white btn-lg mt-3"
-          type="submit"
+          // type="button"
         >
           Mint
         </button>

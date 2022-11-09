@@ -10,7 +10,7 @@ html {
 body {
   box-sizing: border-box;
   margin: 0;
-  padding: 0
+  padding: 0;
 }
 
 /* Text-level semantics
@@ -20,12 +20,12 @@ body {
  * Remove the gray background on active links in IE 10.
  */
 
- a {
+a {
   background-color: transparent;
 }
 
-.link  {
-@apply text-blue-600 hover:text-blue-700 dark:text-blue-200 dark:hover:text-blue-300
+.link {
+  @apply text-blue-600 hover:text-blue-700 dark:text-blue-200 dark:hover:text-blue-300;
 }
 
 /**
@@ -125,11 +125,11 @@ img {
 }
 
 .input {
-  @apply border-0 px-3 py-3 placeholder-neutral-400 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150
+  @apply border-0 px-3 py-3 placeholder-neutral-400 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150;
 }
 
 .btn {
-  @apply py-2 px-4 font-semibold rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 duration-200;
+  @apply py-2 px-4 font-semibold rounded-sm shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 duration-200;
 }
 
 .btn-white {
@@ -147,11 +147,11 @@ img {
 }
 
 pre {
-  white-space: pre-wrap;       /* Since CSS 2.1 */
-  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-  white-space: -pre-wrap;      /* Opera 4-6 */
-  white-space: -o-pre-wrap;    /* Opera 7 */
-  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  white-space: pre-wrap; /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
 
 .animate {
@@ -162,7 +162,7 @@ pre {
   /* left: 1px; */
   background: inherit;
   border-radius: calc(var(--geist-radius) - 1px);
-  background: linear-gradient(-90deg,#007cf0,#00dfd8,#ff0080,#007cf0);
+  background: linear-gradient(-90deg, #007cf0, #00dfd8, #ff0080, #007cf0);
   background-size: 400% 100%;
   /* border: none; */
   padding: 0;
@@ -176,16 +176,15 @@ pre {
   0% {
     background-position: 0 0;
   }
-  
+
   50% {
     background-position: 400% 0;
   }
-  
+
   100% {
     background-position: 0 0;
   }
 }
-
 
 .tag {
   @apply px-2 inline-flex text-xs leading-5 font-semibold rounded-lg;

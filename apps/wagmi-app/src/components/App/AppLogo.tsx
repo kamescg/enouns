@@ -23,7 +23,7 @@ export const AppLogo = ({ className, defaultStyle }: AppLogoProps) => {
   return (
     <Link passHref={true} href="/">
       <span className={classesBase}>
-        <span className="mr-2 text-xl">{AppConfig.emoji}</span>
+        <span className="mr-2 text-sm">{AppConfig.emoji}</span>
         <span className={styleName}>{AppConfig.title}</span>
       </span>
     </Link>

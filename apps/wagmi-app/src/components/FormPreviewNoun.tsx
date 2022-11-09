@@ -2,7 +2,7 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import classNames from "classnames";
 import { useAccount, useContractRead, useContractWrite } from "wagmi";
-import ENouns from "@enouns/core-sol/deployments/localhost/ENouns.json";
+import ENouns from "@enouns/core-sol/deployments/mainnet/ENouns.json";
 import InputWithLabel from "./InputWithLabel";
 
 interface FormPreviewNounProps {

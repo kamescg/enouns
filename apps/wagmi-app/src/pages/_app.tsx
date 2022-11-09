@@ -31,14 +31,14 @@ const { chains, provider, webSocketProvider } = configureChains(
       : []),
   ],
   [
-    jsonRpcProvider({
-      priority: 0,
-      rpc: () => ({
-        http: "http://127.0.0.1:8545",
-      }),
-    }),
-    // alchemyProvider({ alchemyId: "_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC" }),
-    // publicProvider(),
+    // jsonRpcProvider({
+    //   priority: 0,
+    //   rpc: () => ({
+    //     http: "http://127.0.0.1:8545",
+    //   }),
+    // }),
+    alchemyProvider({ alchemyId: "5oRK-2Gt3A6sKHfISqsC15ozeRyyXjU5" }),
+    publicProvider(),
   ]
 );
 

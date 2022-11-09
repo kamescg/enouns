@@ -3,7 +3,7 @@ import { Meta } from "@/templates/Meta";
 import { AppConfig } from "@/utils/AppConfig";
 import FormMintNoun from "@/components/FormMintNoun";
 import { useAccount, useContractRead, useEnsName, useSigner } from "wagmi";
-import ENouns from "@enouns/core-sol/deployments/localhost/ENouns.json";
+import ENouns from "@enouns/core-sol/deployments/mainnet/ENouns.json";
 import FormPreviewNoun from "@/components/FormPreviewNoun";
 import { useEffect, useState } from "react";
 import ENS, { getEnsAddress } from "@ensdomains/ensjs";

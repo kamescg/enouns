@@ -51,7 +51,7 @@ export const ModalHowItWorks = ({
             Want to review the contracts?{" "}
             <a
               className="text-blue-600 hover:text-blue-700 dark:text-blue-200 dark:hover:text-blue-300"
-              href="https://etherscan.io/address/0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2"
+              href="https://etherscan.io/address/0x5879eb56dcff53095781aa1f4b5eb0d325960360"
               target="_blank"
               rel="noopener noreferrer"
             >
