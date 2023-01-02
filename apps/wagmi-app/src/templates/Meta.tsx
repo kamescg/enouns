@@ -55,6 +55,7 @@ const Meta = (props: IMetaProps) => {
           title: props.title,
           description: props.description,
           url: props.canonical,
+          images: [{ url: "https://enouns.art/preview.jpeg" }],
           locale: AppConfig.locale,
           site_name: AppConfig.site_name,
         }}
