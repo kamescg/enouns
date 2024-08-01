@@ -1,12 +1,10 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "baseBranch": "origin/main",
   "globalDependencies": [
-    "$GITHUB_TOKEN",
     "tsconfig.json",
     ".env.*"
   ],
-  "pipeline": {
+  "tasks": {
       "chain": {
         "dependsOn": ["^chain"],
           "outputs": [""],

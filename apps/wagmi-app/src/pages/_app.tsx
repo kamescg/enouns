@@ -11,33 +11,20 @@ import type { AppProps } from "next/app";
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 import { AppConfig } from "@/utils/AppConfig";
 import IsMounted from "@/components/IsMounted";
+import { env } from "process";
 
 const { chains, provider, webSocketProvider } = configureChains(
   [
     chain.mainnet,
-    chain.polygon,
-    chain.optimism,
-    chain.arbitrum,
-    chain.hardhat,
-    chain.rinkeby,
-    chain.kovan,
-    chain.goerli,
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true"
-      ? [chain.goerli, chain.kovan, chain.rinkeby, chain.ropsten]
+      ? [chain.mainnet]
       : []),
   ],
   [
-    // jsonRpcProvider({
-    //   priority: 0,
-    //   rpc: () => ({
-    //     http: "http://127.0.0.1:8545",
-    //   }),
-    // }),
-    alchemyProvider({ alchemyId: "Dsg23pUn17OdUuoYiRNl9l_DzKGu-DK2" }),
+    alchemyProvider({ alchemyId: env.ALCHEMY_API_KEY }),
     publicProvider(),
   ]
 );
